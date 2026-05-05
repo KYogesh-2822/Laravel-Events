@@ -1,9 +1,7 @@
 <?php
-
 namespace App\Providers;
-
 use Illuminate\Support\ServiceProvider;
-namespace App\Services;
+use App\Services\ProductService;
 
 class AppServiceProvider extends ServiceProvider
 {
