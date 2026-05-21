@@ -10,7 +10,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-       $this->app()->bind('product',function(){
+       $this->app->bind('product',function(){
         return new ProductService();
        });
     }

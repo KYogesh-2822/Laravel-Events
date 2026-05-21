@@ -24,7 +24,8 @@ class RegisterRequest extends FormRequest
         return [
             'name'     => ['required', 'string', 'max:255'],
             'email'    => ['required', 'email', 'unique:users,email'],
-            'password' => ['required', 'string', 'min:8', 'confirmed']
+            'password' => ['required', 'string', 'min:8', 'confirmed'],
+            'city'     => ['required', 'string', 'max:255'],
         ];
     }
 
@@ -35,6 +36,7 @@ class RegisterRequest extends FormRequest
             'email.unique'       => 'This email is already registered.',
             'password.min'       => 'Password must be at least 8 characters.',
             'password.confirmed' => 'Passwords do not match.',
+            'city.required'      => 'Please enter your city.',
         ];
     }
 }

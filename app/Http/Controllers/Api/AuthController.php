@@ -13,6 +13,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Validation\ValidationException;
 use App\Traits\LoggerTrait;
 use App\Traits\ApiResponse;
+use Illuminate\Foundation\Inspiring;
 
 
 class AuthController extends Controller
@@ -21,11 +22,20 @@ class AuthController extends Controller
 use LoggerTrait, ApiResponse;
     
 
-public function register(RegisterRequest $request) : JsonResponse
+    public function register(RegisterRequest $request) : JsonResponse
     {
-        $user = User::create($request->validated());
+        $data = $request->validated();
+        $data['password'] = Hash::make($data['password']);
+
+        $user = User::create($data);
 
         $token = $user->createToken('auth-login')->accessToken;
+        $quote = config('quotes')[array_rand(config('quotes'))];
+        $inbuildQuote = $this->cleanInspiringQuote(Inspiring::quote());
+
+        // Attach quotes to the user model so the resource can access them
+        $user->quote = $quote;
+        $user->inbuildQuote = $inbuildQuote;
 
         return response()->json([
             'message' => 'Registration successful!',
@@ -51,6 +61,11 @@ public function register(RegisterRequest $request) : JsonResponse
         $user->tokens()->delete();
 
         $token = $user->createToken('auth-token')->accessToken;
+        $quote = collect(config('quotes'))->random();
+        $inbuildQuote = Inspiring::quote();
+
+        $user->quote = $quote;
+        $user->inbuildQuote = $inbuildQuote;
 
         $this->logInfo("User logged in: ".$user->email);
        return $this->success([
@@ -78,5 +93,15 @@ public function register(RegisterRequest $request) : JsonResponse
         return response()->json([
             'user' => new UserResource($request->user())
         ]);
+    }
+
+
+     private function cleanInspiringQuote($quote): string
+    {
+        // Remove Laravel/Symfony console tags
+        $quote = strip_tags($quote);
+        // Remove new lines and extra spaces
+        $quote = preg_replace('/\s+/', ' ', $quote);
+        return trim($quote);
     }
 }
