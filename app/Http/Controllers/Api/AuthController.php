@@ -80,6 +80,7 @@ use LoggerTrait, ApiResponse;
      public function logout(Request $request): JsonResponse
     {
         $request->user()->token()->revoke();
+        $request->user()->token()->delete();
 
         return response()->json([
             'message' => 'Logged out successfully.',

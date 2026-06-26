@@ -6,7 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Services\ProductService;
 use App\Facades\Product;
-
+use App\Traits\ApiResponse;
 
 class ProductController extends Controller
 {

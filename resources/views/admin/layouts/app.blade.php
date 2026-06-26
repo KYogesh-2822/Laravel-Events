@@ -14,5 +14,5 @@
     </div>
 </body>
 @include('admin.layouts.scripts')
-@yield('scripts')
+@stack('scripts')
 </html>

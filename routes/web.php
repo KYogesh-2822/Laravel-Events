@@ -5,7 +5,7 @@ use App\Http\Controllers\UserSearchController;
 
 
 Route::get('/', function () {
-    return view('admin.includes.dashboard');
+    return view('welcome');
 });
 
 
