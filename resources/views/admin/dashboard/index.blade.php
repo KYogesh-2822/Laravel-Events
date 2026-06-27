@@ -4,22 +4,31 @@
 
         <div class="row">
 
-            <div class="col-md-8">
-                <input type="text"
-                       id="search"
-                       class="form-control"
-                       placeholder="Search name, email, phone, city">
-            </div>
+    <div class="col-md-3">
+        <select id="search_by" class="form-control">
+            <option value="name">Name</option>
+            <option value="email">Email</option>
+            <option value="phone">Phone</option>
+            <option value="city">City</option>
+        </select>
+    </div>
 
-            <div class="col-md-4">
-                <select id="status" class="form-control">
-                    <option value="">All Status</option>
-                    <option value="active">Active</option>
-                    <option value="inactive">Inactive</option>
-                </select>
-            </div>
+    <div class="col-md-5">
+        <input type="text"
+               id="search"
+               class="form-control"
+               placeholder="Search selected field">
+    </div>
 
-        </div>
+    <div class="col-md-4">
+        <select id="status" class="form-control">
+            <option value="">All Status</option>
+            <option value="active">Active</option>
+            <option value="inactive">Inactive</option>
+        </select>
+    </div>
+
+</div>
 
     </div>
 
@@ -34,26 +43,25 @@
 </div>
 @push('scripts')
 <script>
-    const dashboardUrl = "{{ route('dashboard') }}";
+    let timer = null;
+    let controller = null;
+ function fetchUsers(page = 1) {
 
-let timer = null;
-let controller = null;
-
-function fetchUsers(page = 1) {
-
-    if (controller) {
-        controller.abort();
-    }
-
+    // if (controller) {
+    //     controller.abort();
+    // }
+const dashboardUrl = "{{ route('dashboard') }}";
     controller = new AbortController();
 
     const search = document.getElementById('search').value.trim();
+    const searchBy = document.getElementById('search_by').value;
     const status = document.getElementById('status').value;
 
     const url =
         dashboardUrl +
         '?page=' + page +
         '&search=' + encodeURIComponent(search) +
+        '&search_by=' + encodeURIComponent(searchBy) +
         '&status=' + encodeURIComponent(status);
 
     fetch(url, {
@@ -73,62 +81,21 @@ function fetchUsers(page = 1) {
     });
 }
 
-// Search
 document.getElementById('search').addEventListener('input', function () {
-
     clearTimeout(timer);
 
     timer = setTimeout(function () {
         fetchUsers();
-    }, 400);
-
+    }, 500);
 });
 
-// Status
-document.getElementById('status').addEventListener('change', function () {
+document.getElementById('search_by').addEventListener('change', function () {
     fetchUsers();
 });
 
-// AJAX Pagination
-document.addEventListener('click', function (e) {
-
-    const link = e.target.closest('.pagination a');
-
-    if (!link) return;
-
-    e.preventDefault();
-
-    const url = new URL(link.href);
-    const page = url.searchParams.get('page');
-
-    fetchUsers(page);
-
+document.getElementById('status').addEventListener('change', function () {
+    fetchUsers();
 });
-
-    // const dashboardUrl = "{{ route('dashboard') }}";
-
-    // let timer;
-
-    // function fetchUsers() {
-    //     let search = document.getElementById('search').value;
-    //     let status = document.getElementById('status').value;
-
-    //     fetch(dashboardUrl + "?search=" + search + "&status=" + status, {
-    //         headers: { 'X-Requested-With': 'XMLHttpRequest' }
-    //     })
-    //     .then(res => res.text())
-    //     .then(html => {
-    //         document.getElementById('userTable').innerHTML = html;
-    //     });
-    // }
-
-    // document.getElementById('search').addEventListener('keyup', function () {
-    //     clearTimeout(timer);
-    //     timer = setTimeout(() => fetchUsers(), 300);
-    // });
-
-    // document.getElementById('status').addEventListener('change', function () {
-    //     fetchUsers();
-    // });
+    
 </script>
 @endpush

@@ -17,7 +17,7 @@
         <div class="app-content">
           <div class="container-fluid">
             <div class="row">
-              <div class="col-lg-3 col-6">
+              <!-- <div class="col-lg-3 col-6">
                 <div class="small-box text-bg-primary">
                   <div class="inner">
                     <h3>150</h3>
@@ -73,7 +73,7 @@
                     More info <i class="bi bi-link-45deg"></i>
                   </a>
                 </div>
-              </div>
+              </div> -->
             </div>
           </div>
         </div>
