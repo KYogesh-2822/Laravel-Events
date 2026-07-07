@@ -7,12 +7,13 @@
     // Route::get('/user', function (Request $request) {
         //     return $request->user();
         // })->middleware('auth:sanctum');
-
-    Route::post('/register',[AuthController::class,'register'])->name('user.register');
-    Route::post('/login',[AuthController::class,'login'])->name('user.login');
+Route::middleware('auth:api')->get('/user', function (Request $request) {
+    Route::post('/register',[AuthController::class,'register'])->name('register');
+    Route::post('/login',[AuthController::class,'login'])->name('login');
     Route::get('/all-product',[ProductController::class,'getProduct']);
     Route::middleware('auth:api')->group(function(){
-        Route::get('/profile',[AuthController::class,'me'])->name('user.detail');
-        Route::post('/logout',[AuthController::class,'logout'])->name('user.logout');
+        Route::get('/profile',[AuthController::class,'me'])->name('profile');
+        Route::post('/logout',[AuthController::class,'logout'])->name('logout');
+    });
     });
 

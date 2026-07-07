@@ -24,7 +24,7 @@ class User extends Authenticatable
          *
          * @var list<string>
          */
-             protected $fillable = ['name', 'email', 'phone', 'city', 'password'];
+             protected $fillable = ['name', 'email', 'phone', 'city', 'password', 'is_admin'];
 
 
        public function detail(): HasOne

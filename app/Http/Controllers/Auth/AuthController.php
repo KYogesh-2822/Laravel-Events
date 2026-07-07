@@ -9,44 +9,6 @@ use App\Services\AuthService;
 
 class AuthController extends Controller
 {
-
-  public function __construct(protected AuthService $authService){}
-
-  public function register(WebUserRequest $request){
-
-    $user  =  $this->authService->register($request);
-
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// app/Http/Controllers/AuthController.php
-
-namespace App\Http\Controllers;
-
-use App\Services\AuthService;
-use App\Http\Requests\RegisterRequest;
-
-class AuthController extends Controller
-{
     protected $authService;
 
     public function __construct(AuthService $authService)

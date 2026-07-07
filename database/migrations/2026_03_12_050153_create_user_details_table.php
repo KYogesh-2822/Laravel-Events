@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -26,9 +27,10 @@ return new class extends Migration
             $table->string('country', 100)->default('India');
             $table->timestamps();
  
-            // ① FULL-TEXT INDEX on user_details columns
-            $table->fullText(['profession', 'bio', 'state'], 'user_details_fulltext_idx');
- 
+            if (DB::getDriverName() === 'mysql') {
+                $table->fullText(['profession', 'bio', 'state'], 'user_details_fulltext_idx');
+            }
+
             // Regular B-Tree index for JOIN performance (user_id already indexed via unique)
             $table->index(['user_id', 'age']);
         });

@@ -2,13 +2,22 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserSearchController;
-
+use App\Http\Controllers\Auth\WebAuthController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('users.layouts.index');
+})->name('home');
+
+Route::middleware('guest:web')->prefix('user')->name('user.')->group(function () {
+    Route::get('/register', [WebAuthController::class, 'showRegister'])->name('register');
+    Route::post('/register', [WebAuthController::class, 'register']);
+    Route::get('/login', [WebAuthController::class, 'showLogin'])->name('login');
+    Route::post('/login', [WebAuthController::class, 'login'])->name('login.submit');
 });
 
-
+Route::middleware('auth:web')->group(function () {
+    Route::post('/logout', [WebAuthController::class, 'logout'])->name('logout');
+});
 
 // ─────────────────────────────────────────────────────────────
 // Main page + debounced search endpoint (Function 3)

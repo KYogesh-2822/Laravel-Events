@@ -10,6 +10,8 @@ class AdminDashboardController extends Controller
 
 public function index(Request $request)
 {
+    abort_unless(auth()->guard('admin')->check(), 403, 'Access denied.');
+
     $query = User::query()
         ->select('id', 'name', 'email', 'phone', 'city', 'status');
 
