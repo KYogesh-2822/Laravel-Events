@@ -88,7 +88,7 @@
                 <!--begin::Menu Footer-->
                 <li class="user-footer">
                   <a href="#" class="btn btn-default btn-flat">Profile</a>
-                  <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
+                  <form action="{{ route('admin.admin.logout') }}" method="POST" class="d-inline">
                     @csrf
                     <button type="submit" class="btn btn-default btn-flat float-end">Sign out</button>
                   </form>

@@ -7,8 +7,8 @@
     // Route::get('/user', function (Request $request) {
         //     return $request->user();
         // })->middleware('auth:sanctum');
+        Route::post('/register',[AuthController::class,'register'])->name('register');
 Route::middleware('auth:api')->get('/user', function (Request $request) {
-    Route::post('/register',[AuthController::class,'register'])->name('register');
     Route::post('/login',[AuthController::class,'login'])->name('login');
     Route::get('/all-product',[ProductController::class,'getProduct']);
     Route::middleware('auth:api')->group(function(){
